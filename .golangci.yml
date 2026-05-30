@@ -1,0 +1,111 @@
+version: "2"
+
+linters:
+  default: all
+  disable:
+    - depguard
+    - dupl
+    - exhaustive
+    - exhaustruct
+    - inamedparam
+    - ireturn
+    - paralleltest
+    - recvcheck
+    - tagliatelle
+    - testpackage
+    - unqueryvet
+    - wsl
+  settings:
+    revive:
+      rules:
+        - name: package-comments
+          disabled: true
+    wrapcheck:
+      ignore-package-globs:
+        # These errors are wrapped already, just passing through the error chain.
+        - github.com/opoccomaxao/gopkg/pkg/*
+        - github.com/pkg/errors
+        - errors
+      ignore-sigs:
+        - (*gorm.io/gorm.DB).Transaction
+    errcheck:
+      exclude-functions:
+        - (*github.com/gin-gonic/gin.Error).SetType
+        - (*github.com/gin-gonic/gin.Context).AbortWithError
+        - (*github.com/gin-gonic/gin.Context).Error
+    varnamelen:
+      max-distance: 20
+    funcorder:
+      constructor: true
+      struct-method: false
+    gosec:
+      excludes:
+        - G117
+        - G704
+    unused:
+      exported-fields-are-used: false
+      field-writes-are-uses: false
+    forbidigo:
+      exclude-godoc-examples: true
+      analyze-types: true
+      forbid:
+        - msg: "Use strconv, string concatenation or builder"
+          pattern: fmt\.(Sp|P)rintf
+    funlen:
+      lines: 100
+      statements: 60
+      ignore-comments: true
+    cyclop:
+      max-complexity: 20
+      package-average: 10
+    nestif:
+      min-complexity: 10
+
+  exclusions:
+    paths:
+      - docs/
+      - .local/
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - path: .*_test\.go
+        linters:
+          - dupl
+          - funlen
+          - varnamelen
+      - source: MakePackage\(|Serve\(|Descriptions\(|Commands\(|Register\(
+        linters:
+          - funlen
+          - cyclop
+      - source: ^\s+\/\/
+        linters:
+          - lll
+      - source: "`gorm"
+        linters:
+          - lll
+      - path: pkg/models
+        linters:
+          - gochecknoglobals
+
+formatters:
+  enable:
+    - gofmt
+    - gofumpt
+    - goimports
+    - golines
+    - swaggo
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  uniq-by-line: false
+  new: false
+  fix: true
+
+run:
+  timeout: 5m
+  allow-parallel-runners: true
+  concurrency: 10

@@ -1,0 +1,16 @@
+.vscode/
+.idea/
+.local/
+bin/
+
+.env
+*.env
+*.log
+__debug*
+main
+
+.claude/
+.github/
+CLAUDE.md
+AGENTS.md
+*.local.md
