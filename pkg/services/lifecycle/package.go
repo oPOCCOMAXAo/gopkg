@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/opoccomaxao/gopkg/pkg/logger"
+	"github.com/opoccomaxao/gopkg/pkg/services/logger"
 )
 
 type Package struct {

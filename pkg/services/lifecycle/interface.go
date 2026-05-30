@@ -3,7 +3,7 @@ package lifecycle
 import (
 	"context"
 
-	"github.com/opoccomaxao/gopkg/pkg/runtimeutils"
+	"github.com/opoccomaxao/gopkg/pkg/utils/runtimeutils"
 )
 
 type Servable interface {

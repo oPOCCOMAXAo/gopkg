@@ -24,6 +24,7 @@ linters:
       ignore-package-globs:
         # These errors are wrapped already, just passing through the error chain.
         - github.com/opoccomaxao/gopkg/pkg/*
+        - github.com/opoccomaxao/gopkg/example/*
         - github.com/pkg/errors
         - errors
       ignore-sigs:

@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/opoccomaxao/gopkg/pkg/runtimeutils"
+	"github.com/opoccomaxao/gopkg/pkg/utils/runtimeutils"
 )
 
 type Service struct {
