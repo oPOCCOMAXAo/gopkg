@@ -26,7 +26,7 @@ type Shutdownable interface {
 	//
 	// Context is timeout context for the shutdown operation.
 	//
-	// Returned error will be logged.
+	// Returned error will be logged and propagated by lifecycle.Service.Shutdown.
 	Shutdown(context.Context) error
 }
 

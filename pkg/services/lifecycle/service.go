@@ -2,6 +2,7 @@ package lifecycle
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"runtime"
 	"slices"
@@ -114,6 +115,8 @@ func (s *Service) Serve(
 //
 //nolint:contextcheck
 func (s *Service) Shutdown(_ context.Context) error {
+	var shutdownErrors []error
+
 	for _, shutdownable := range slices.Backward(s.shutdownable) {
 		func() {
 			actionCtx, cancel := context.WithTimeout(context.Background(), s.shutdownTimeout)
@@ -121,6 +124,8 @@ func (s *Service) Shutdown(_ context.Context) error {
 
 			err := shutdownable.Shutdown(actionCtx)
 			if err != nil {
+				shutdownErrors = append(shutdownErrors, err)
+
 				s.logger.Error("Shutdown Failed",
 					slog.Any("error", err),
 					shutdownable.Stack.SlogLines(),
@@ -129,7 +134,7 @@ func (s *Service) Shutdown(_ context.Context) error {
 		}()
 	}
 
-	return nil
+	return errors.Join(shutdownErrors...)
 }
 
 func (s *Service) shutdownApp(

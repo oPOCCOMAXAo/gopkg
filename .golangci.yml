@@ -75,8 +75,10 @@ linters:
       - path: .*_test\.go
         linters:
           - dupl
+          - err113
           - funlen
           - varnamelen
+          - wrapcheck
       - source: MakePackage\(|Serve\(|Descriptions\(|Commands\(|Register\(
         linters:
           - funlen
