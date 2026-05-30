@@ -6,6 +6,7 @@ import (
 	"os/signal"
 
 	"github.com/opoccomaxao/gopkg/example/config"
+	"github.com/opoccomaxao/gopkg/pkg/services/ginserver"
 	"github.com/opoccomaxao/gopkg/pkg/services/lifecycle"
 	"github.com/opoccomaxao/gopkg/pkg/services/logger"
 )
@@ -29,6 +30,14 @@ func Run() error {
 		appCancelCause,
 		logger,
 	)
+
+	server := ginserver.MakePackage(
+		config.Server,
+		lifecycle,
+		logger,
+	)
+
+	FakeMakeEndpoints(server)
 
 	err = lifecycle.Service.Serve(appCtx, appCancelCause)
 	if err != nil {

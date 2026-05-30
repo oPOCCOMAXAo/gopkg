@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/caarlos0/env/v11"
+	"github.com/opoccomaxao/gopkg/pkg/services/ginserver"
 	"github.com/opoccomaxao/gopkg/pkg/services/lifecycle"
 	"github.com/opoccomaxao/gopkg/pkg/services/logger"
 	"github.com/pkg/errors"
@@ -10,6 +11,7 @@ import (
 type Config struct {
 	Logger    logger.Config    `envPrefix:"LOGGER_"`
 	Lifecycle lifecycle.Config `envPrefix:"LIFECYCLE_"`
+	Server    ginserver.Config `envPrefix:"SERVER_"`
 }
 
 func Load() (*Config, error) {
