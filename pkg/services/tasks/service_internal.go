@@ -6,15 +6,15 @@ import (
 	"time"
 
 	"github.com/opoccomaxao/gopkg/pkg/errors"
+	"github.com/opoccomaxao/gopkg/pkg/services/tasks/stack"
 	"github.com/opoccomaxao/gopkg/pkg/utils/ctxutils"
-	"github.com/opoccomaxao/gopkg/pkg/utils/stack"
 	pkgerr "github.com/pkg/errors"
 )
 
 func (s *Service) registerPeriodic(task TaskDescription) error {
 	_, err := s.cron.AddFunc(task.Schedule, func() {
 		ctx := context.Background()
-		ctx = stack.PushString(ctx, "cron", s.maxStack)
+		ctx = stack.Push(ctx, "cron", s.maxStack)
 
 		s.RunIgnore(ctx, task.Name)
 	})
@@ -34,7 +34,7 @@ func (s *Service) runTask(
 	)
 
 	{
-		prevStack := stack.GetString(ctx)
+		prevStack := stack.Get(ctx)
 		if len(prevStack) > 0 {
 			logger = logger.With(slog.Any("stack", prevStack))
 		}
@@ -51,7 +51,7 @@ func (s *Service) runTask(
 
 	start := time.Now()
 
-	ctx = stack.PushString(ctx, task.Name, s.maxStack)
+	ctx = stack.Push(ctx, task.Name, s.maxStack)
 
 	ctx, cancel := context.WithTimeout(ctx, task.Timeout)
 	defer cancel()
