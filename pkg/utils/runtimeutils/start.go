@@ -6,12 +6,16 @@ import (
 )
 
 //nolint:gochecknoglobals
-var startTime = time.Now().Unix()
+var (
+	startTime = time.Now().Unix()
+
+	startTimeString = strconv.FormatInt(startTime, 10)
+)
 
 func GetStartTime() int64 {
 	return startTime
 }
 
 func GetStartTimeString() string {
-	return strconv.FormatInt(startTime, 10)
+	return startTimeString
 }
