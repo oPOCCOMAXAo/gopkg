@@ -14,6 +14,8 @@ func NewSQLite(
 ) (*gorm.DB, error) {
 	db, err := gorm.Open(sqlite.Open(config.DSN), &gorm.Config{
 		Logger: NewLogger(logger),
+
+		TranslateError: true,
 	})
 	if err != nil {
 		return nil, errors.WithStack(err)

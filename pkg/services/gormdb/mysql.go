@@ -14,6 +14,8 @@ func NewMySQL(
 ) (*gorm.DB, error) {
 	db, err := gorm.Open(mysql.Open(config.DSN), &gorm.Config{
 		Logger: NewLogger(logger),
+
+		TranslateError: true,
 	})
 	if err != nil {
 		return nil, errors.WithStack(err)
