@@ -12,8 +12,8 @@ import (
 
 type testBindRequest struct {
 	Int      int64  `binding:"required,min=1"     uri:"int"`
-	String   string `binding:"required,max=128"             form:"string"   json:"string"`
-	Optional string `binding:"omitempty,max=1024"           form:"optional" json:"optional"`
+	String   string `binding:"required,max=128"   form:"string"   json:"string"`
+	Optional string `binding:"omitempty,max=1024" form:"optional" json:"optional"`
 }
 
 func TestBindAll(t *testing.T) {

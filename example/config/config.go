@@ -5,7 +5,7 @@ import (
 	"github.com/opoccomaxao/gopkg/pkg/services/ginserver"
 	"github.com/opoccomaxao/gopkg/pkg/services/lifecycle"
 	"github.com/opoccomaxao/gopkg/pkg/services/logger"
-	"github.com/pkg/errors"
+	pkgerr "github.com/pkg/errors"
 )
 
 type Config struct {
@@ -22,7 +22,7 @@ func Load() (*Config, error) {
 		UseFieldNameByDefault: false,
 	})
 	if err != nil {
-		return nil, errors.WithStack(err)
+		return nil, pkgerr.WithStack(err)
 	}
 
 	return &res, nil

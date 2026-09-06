@@ -2,13 +2,14 @@ package ginserver
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/opoccomaxao/gopkg/pkg/services/lifecycle"
-	"github.com/pkg/errors"
+	pkgerr "github.com/pkg/errors"
 )
 
 var (
@@ -44,7 +45,7 @@ func NewService(
 func (s *Service) Serve(ctx context.Context) error {
 	err := s.server.ListenAndServe()
 	if err != nil && !errors.Is(err, http.ErrServerClosed) {
-		return errors.WithStack(err)
+		return pkgerr.WithStack(err)
 	}
 
 	return nil
@@ -53,7 +54,7 @@ func (s *Service) Serve(ctx context.Context) error {
 func (s *Service) Shutdown(ctx context.Context) error {
 	err := s.server.Shutdown(ctx)
 
-	return errors.WithStack(err)
+	return pkgerr.WithStack(err)
 }
 
 func (s *Service) Engine() *gin.Engine {

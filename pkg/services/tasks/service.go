@@ -69,7 +69,7 @@ func (s *Service) Register(
 	svc ...ServiceWithTasks,
 ) error {
 	if s.served {
-		return pkgerr.New("tasks: RegisterService called after Serve")
+		return pkgerr.WithStack(errRegisterAfterServe)
 	}
 
 	s.services = append(s.services, svc...)

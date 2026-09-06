@@ -3,7 +3,7 @@ package gormdb
 import (
 	"log/slog"
 
-	"github.com/pkg/errors"
+	pkgerr "github.com/pkg/errors"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -18,7 +18,7 @@ func NewMySQL(
 		TranslateError: true,
 	})
 	if err != nil {
-		return nil, errors.WithStack(err)
+		return nil, pkgerr.WithStack(err)
 	}
 
 	return db, nil

@@ -2,11 +2,12 @@ package ginutils
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"github.com/pkg/errors"
+	pkgerr "github.com/pkg/errors"
 )
 
 // formMemory is the max memory used to parse multipart forms.
@@ -65,7 +66,7 @@ func BindAll(
 	if binding.Validator != nil {
 		err := binding.Validator.ValidateStruct(objectRef)
 		if err != nil {
-			ctx.Error(errors.WithStack(err)).SetType(gin.ErrorTypeBind)
+			ctx.Error(pkgerr.WithStack(err)).SetType(gin.ErrorTypeBind)
 
 			return false
 		}
@@ -87,7 +88,7 @@ func MapUri(
 
 	err := binding.MapFormWithTag(objectRef, params, "uri")
 	if err != nil {
-		return errors.WithStack(err)
+		return pkgerr.WithStack(err)
 	}
 
 	return nil
@@ -102,17 +103,17 @@ func MapForm(
 ) error {
 	err := ctx.Request.ParseForm()
 	if err != nil {
-		return errors.WithStack(err)
+		return pkgerr.WithStack(err)
 	}
 
 	err = ctx.Request.ParseMultipartForm(formMemory)
 	if err != nil && !errors.Is(err, http.ErrNotMultipart) {
-		return errors.WithStack(err)
+		return pkgerr.WithStack(err)
 	}
 
 	err = binding.MapFormWithTag(objectRef, ctx.Request.Form, "form")
 	if err != nil {
-		return errors.WithStack(err)
+		return pkgerr.WithStack(err)
 	}
 
 	return nil
@@ -126,7 +127,7 @@ func MapJSON(
 ) error {
 	err := json.NewDecoder(ctx.Request.Body).Decode(objectRef)
 	if err != nil {
-		return errors.WithStack(err)
+		return pkgerr.WithStack(err)
 	}
 
 	return nil

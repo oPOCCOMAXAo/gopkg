@@ -1,7 +1,7 @@
 package automigrate
 
 import (
-	"github.com/pkg/errors"
+	pkgerr "github.com/pkg/errors"
 	"gorm.io/gorm"
 )
 
@@ -11,7 +11,7 @@ func CreateTables(
 ) error {
 	err := migrator.AutoMigrate(modelsPtrs...)
 	if err != nil {
-		return errors.WithStack(err)
+		return pkgerr.WithStack(err)
 	}
 
 	return nil
@@ -26,7 +26,7 @@ func DropTables(
 			table,
 		)
 		if err != nil {
-			return errors.WithStack(err)
+			return pkgerr.WithStack(err)
 		}
 	}
 
@@ -42,7 +42,7 @@ func DropIndexesSingle(
 		if migrator.HasIndex(modelPtr, index) {
 			err := migrator.DropIndex(modelPtr, index)
 			if err != nil {
-				return errors.WithStack(err)
+				return pkgerr.WithStack(err)
 			}
 		}
 	}

@@ -6,7 +6,7 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/gin-gonic/gin"
-	"github.com/pkg/errors"
+	pkgerr "github.com/pkg/errors"
 )
 
 func Render(ctx *gin.Context, status int, component templ.Component) {
@@ -27,7 +27,7 @@ func (t templRenderer) Render(w http.ResponseWriter) error {
 	if t.Component != nil {
 		err := t.Component.Render(t.Context, w)
 		if err != nil {
-			return errors.WithStack(err)
+			return pkgerr.WithStack(err)
 		}
 	}
 

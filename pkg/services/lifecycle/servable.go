@@ -3,7 +3,7 @@ package lifecycle
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	pkgerr "github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -19,7 +19,7 @@ func ServeAll(
 		})
 	}
 
-	return errors.WithStack(eg.Wait())
+	return pkgerr.WithStack(eg.Wait())
 }
 
 type ServableFunc func(context.Context) error

@@ -7,6 +7,8 @@ linters:
     - dupl
     - exhaustive
     - exhaustruct
+    - exhaustruct_v5
+    - gomodguard
     - inamedparam
     - ireturn
     - paralleltest
@@ -51,7 +53,15 @@ linters:
       analyze-types: true
       forbid:
         - msg: "Use strconv, string concatenation or builder"
-          pattern: fmt\.(Sp|P)rintf
+          pattern: ^fmt\.(Sp|P)rint(f|ln)
+          pkg: "^fmt$"
+        # we will remove this dependency, so do not add more dependent calls.
+        - msg: "Use standard library errors.Is, errors.New"
+          pattern: ^errors\.(Is|New)
+          pkg: ^github.com/pkg/errors$
+        - msg: "Use github.com/pkg/errors.Wrapf, attach stack"
+          pattern: ^fmt\.Errorf
+          pkg: "^fmt$"
     funlen:
       lines: 100
       statements: 60
@@ -61,6 +71,12 @@ linters:
       package-average: 10
     nestif:
       min-complexity: 10
+    importas:
+      no-unaliased: true
+      no-extra-aliases: false
+      alias:
+        - pkg: github.com/pkg/errors
+          alias: pkgerr
 
   exclusions:
     paths:
@@ -77,6 +93,7 @@ linters:
           - dupl
           - err113
           - funlen
+          - goconst
           - varnamelen
           - wrapcheck
       - source: MakePackage\(|Serve\(|Descriptions\(|Commands\(|Register\(
@@ -100,6 +117,14 @@ formatters:
     - goimports
     - golines
     - swaggo
+  settings:
+    gofmt:
+      simplify: true
+      rewrite-rules:
+        - pattern: lo.ToPtr
+          replacement: new
+    golines:
+      reformat-tags: false
 
 issues:
   max-issues-per-linter: 0

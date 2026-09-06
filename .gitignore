@@ -9,6 +9,7 @@ bin/
 __debug*
 main
 
+.agents/
 .claude/
 .github/
 .opencode/
